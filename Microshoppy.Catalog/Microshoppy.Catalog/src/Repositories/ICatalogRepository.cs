@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Microshoppy.Catalog.src.Repositories
+namespace Microshoppy.Catalog.Repositories
 {
 	public interface ICatalogRepository
 	{
-		CatalogProduct CreateProduct(CatalogProduct product);
-		CatalogProduct ReadProduct(Guid productId);
-		IEnumerable<CatalogProduct> ReadProducts();
-		CatalogProduct UpdateProduct(Guid productId, CatalogProduct product);
+		Task<CatalogProduct> CreateProduct(CatalogProduct product);
+		Task<CatalogProduct> ReadProduct(Guid productId);
+		Task<IEnumerable<CatalogProduct>> ReadProducts();
+		Task<CatalogProduct> UpdateProduct(Guid productId, CatalogProduct product);
 		void DeleteProduct(Guid productId);
 	}
 }

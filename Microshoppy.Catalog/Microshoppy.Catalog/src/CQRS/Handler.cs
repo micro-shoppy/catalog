@@ -1,14 +1,19 @@
-﻿using Microshoppy.Catalog.src.Repositories;
+﻿using MediatR;
+using Microshoppy.Catalog.Repositories;
+using System.Threading.Tasks;
+using System.Threading;
 
-namespace Microshoppy.Catalog.src.CQRS
+namespace Microshoppy.Catalog.CQRS
 {
-	public class Handler
+	public abstract class Handler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
 	{
-		protected readonly ICatalogRepository _repo;
+		protected readonly ICatalogRepository Repo;
 
-		public Handler(ICatalogRepository repo)
+		protected Handler(ICatalogRepository repo)
 		{
-			_repo = repo;
+			Repo = repo;
 		}
+
+		public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 	}
 }

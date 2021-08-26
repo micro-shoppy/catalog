@@ -1,37 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Microshoppy.Catalog.src.Repositories
+namespace Microshoppy.Catalog.Repositories
 {
 	public class InMemoryCatalogRepository : ICatalogRepository
 	{
-		private static readonly List<CatalogProduct> _repo = new();
-		public CatalogProduct CreateProduct(CatalogProduct product)
+		private static readonly List<CatalogProduct> Repo = new();
+		public Task<CatalogProduct> CreateProduct(CatalogProduct product)
 		{
-			_repo.Add(product);
-			return product;
+			Repo.Add(product);
+			return Task.FromResult(product);
 		}
 
 		public void DeleteProduct(Guid productId)
 		{
-			var product = ReadProduct(productId);
-			_repo.Remove(product);
+			Repo.Remove(Repo.Find(p => p.ProductId == productId));
 		}
 
-		public CatalogProduct ReadProduct(Guid productId)
+		public Task<CatalogProduct> ReadProduct(Guid productId)
 		{
-			return _repo.Find(product => product.ProductId == productId);
+			return Task.FromResult(Repo.Find(product => product.ProductId == productId));
 		}
 
-		public IEnumerable<CatalogProduct> ReadProducts()
+		public Task<IEnumerable<CatalogProduct>> ReadProducts()
 		{
-			return _repo;
+			return Task.FromResult(Repo.AsEnumerable());
 		}
 
-		public CatalogProduct UpdateProduct(Guid productId, CatalogProduct product)
+		public Task<CatalogProduct> UpdateProduct(Guid productId, CatalogProduct product)
 		{
-			DeleteProduct(productId);
-			return CreateProduct(product);
+			Repo.Remove(Repo.Find(p => p.ProductId == productId));
+			Repo.Add(product);
+			return Task.FromResult(product);
 		}
 	}
 }

@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using Microshoppy.Catalog.src.Repositories;
+using Microshoppy.Catalog.Repositories;
 
-namespace Microshoppy.Catalog.src.CQRS.Query
+namespace Microshoppy.Catalog.CQRS.Query
 {
-	public class ReadCatalogProductQueryHandler : Handler, IRequestHandler<ReadCatalogProductQuery, CatalogProduct>
+	public class ReadCatalogProductQueryHandler : Handler<ReadCatalogProductQuery, CatalogProduct>
 	{
 		public ReadCatalogProductQueryHandler(ICatalogRepository repo) : base(repo)
 		{
 		}
 
-		public Task<CatalogProduct> Handle(ReadCatalogProductQuery request, CancellationToken cancellationToken)
+		public override Task<CatalogProduct> Handle(ReadCatalogProductQuery request, CancellationToken cancellationToken)
 		{
-			return Task.FromResult(_repo.ReadProduct(request.ProductId));
+			return Repo.ReadProduct(request.ProductId);
 		}
 	}
 }

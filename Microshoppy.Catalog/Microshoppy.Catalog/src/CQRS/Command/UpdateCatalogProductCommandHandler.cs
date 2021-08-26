@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microshoppy.Catalog.src.Repositories;
+using Microshoppy.Catalog.Repositories;
 
-namespace Microshoppy.Catalog.src.CQRS.Command
+namespace Microshoppy.Catalog.CQRS.Command
 {
-	public class UpdateCatalogProductCommandHandler : Handler, IRequestHandler<UpdateCatalogProductCommand, Unit>
+	public class UpdateCatalogProductCommandHandler : Handler<UpdateCatalogProductCommand, Unit>
 	{
 		public UpdateCatalogProductCommandHandler(ICatalogRepository repo) : base(repo)
 		{
 		}
 
-		public Task<Unit> Handle(UpdateCatalogProductCommand request, CancellationToken cancellationToken)
+		public override Task<Unit> Handle(UpdateCatalogProductCommand request, CancellationToken cancellationToken)
 		{
 			var itemToUpdate = new CatalogProduct()
 			{
@@ -23,7 +20,7 @@ namespace Microshoppy.Catalog.src.CQRS.Command
 				Description = request.Description,
 				Photo = request.Photo
 			};
-			_repo.UpdateProduct(request.ProductId, itemToUpdate);
+			Repo.UpdateProduct(request.ProductId, itemToUpdate);
 			return Task.FromResult(Unit.Value);
 		}
 	}

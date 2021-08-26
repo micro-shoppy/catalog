@@ -1,17 +1,17 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microshoppy.Catalog.src.Repositories;
+using Microshoppy.Catalog.Repositories;
 
-namespace Microshoppy.Catalog.src.CQRS.Command
+namespace Microshoppy.Catalog.CQRS.Command
 {
-	public class CreateCatalogProductCommandHandler : Handler, IRequestHandler<CreateCatalogProductCommand, Unit>
+	public class CreateCatalogProductCommandHandler : Handler<CreateCatalogProductCommand, Unit>
 	{
 		public CreateCatalogProductCommandHandler(ICatalogRepository repo) : base(repo)
 		{
 		}
 
-		public Task<Unit> Handle(CreateCatalogProductCommand request, CancellationToken cancellationToken)
+		public override  Task<Unit> Handle(CreateCatalogProductCommand request, CancellationToken cancellationToken)
 		{
 			var productToCreate = new CatalogProduct()
 			{
@@ -21,7 +21,7 @@ namespace Microshoppy.Catalog.src.CQRS.Command
 				Photo = request.Photo
 			};
 
-			_repo.CreateProduct(productToCreate);
+			Repo.CreateProduct(productToCreate);
 			return Task.FromResult(Unit.Value);
 		}
 	}

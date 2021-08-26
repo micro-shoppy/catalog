@@ -1,6 +1,6 @@
 using MediatR;
-using Microshoppy.Catalog.src.CQRS.Command;
-using Microshoppy.Catalog.src.Repositories;
+using Microshoppy.Catalog.CQRS.Command;
+using Microshoppy.Catalog.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microshoppy.Catalog.src.Repositories;
+using Microshoppy.Catalog.Repositories;
 
-namespace Microshoppy.Catalog.src.CQRS.Command
+namespace Microshoppy.Catalog.CQRS.Command
 {
-	public class DeleteCatalogProductCommandHandler : Handler, IRequestHandler<DeleteCatalogProductCommand, Unit>
+	public class DeleteCatalogProductCommandHandler : Handler<DeleteCatalogProductCommand, Unit>
 	{
 		public DeleteCatalogProductCommandHandler(ICatalogRepository repo) : base(repo)
 		{
 		}
 
-		public Task<Unit> Handle(DeleteCatalogProductCommand request, CancellationToken cancellationToken)
+		public override Task<Unit> Handle(DeleteCatalogProductCommand request, CancellationToken cancellationToken)
 		{
-			_repo.DeleteProduct(request.ProductId);
+			Repo.DeleteProduct(request.ProductId);
 			return Task.FromResult(Unit.Value);
 		}
 	}
