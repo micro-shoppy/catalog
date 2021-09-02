@@ -17,8 +17,7 @@ namespace Microshoppy.Catalog.CQRS.Command
 			{
 				ProductId = request.ProductId,
 				Description = request.Description,
-				Name = request.Name,
-				Photo = request.Photo
+				Name = request.Name
 			};
 
 			Repo.CreateProduct(productToCreate);

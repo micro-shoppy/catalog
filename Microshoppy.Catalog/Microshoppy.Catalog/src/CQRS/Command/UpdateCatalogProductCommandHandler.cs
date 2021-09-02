@@ -17,8 +17,7 @@ namespace Microshoppy.Catalog.CQRS.Command
 			{
 				ProductId = request.ProductId,
 				Name = request.Name,
-				Description = request.Description,
-				Photo = request.Photo
+				Description = request.Description
 			};
 			Repo.UpdateProduct(request.ProductId, itemToUpdate);
 			return Task.FromResult(Unit.Value);
