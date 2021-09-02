@@ -25,7 +25,6 @@ namespace Microshoppy.Catalog.Controllers
 		[HttpGet]
 		public async Task<IEnumerable<CatalogProduct>> ReadAllProducts()
 		{
-
 			_logger.Info("Reading all products");
 			return await _mediator.Send(new ReadCatalogProductsQuery());
 		}
@@ -42,30 +41,19 @@ namespace Microshoppy.Catalog.Controllers
 		}
 
 		[HttpPost]
-		public void CreateProduct(CatalogProduct product)
+		public void CreateProduct(CreateCatalogProductCommand command)
 		{
-			_logger.Info($"Creating new product: {product}");
-			_mediator.Send(new CreateCatalogProductCommand()
-			{
-				ProductId = product.ProductId,
-				Name = product.Name,
-				Description = product.Description,
-				Photo = product.Photo
-			});
+			_logger.Info($"Creating new product: {command.Name}");
+			_mediator.Send(command);
 		}
 
 		[HttpPost]
 		[Route("{productId}")]
-		public void UpdateProduct(Guid productId, CatalogProduct product)
+		public void UpdateProduct(Guid productId, UpdateCatalogProductCommand command)
 		{
-			_logger.Info($"Updating product with ID {productId} to {product}");
-			_mediator.Send(new UpdateCatalogProductCommand()
-			{
-				ProductId = productId,
-				Name = product.Name,
-				Description = product.Description,
-				Photo = product.Photo
-			});
+			command.ProductId = productId;
+			_logger.Info($"Updating product with ID {productId} to {command}");
+			_mediator.Send(command);
 		}
 
 		[HttpDelete]
