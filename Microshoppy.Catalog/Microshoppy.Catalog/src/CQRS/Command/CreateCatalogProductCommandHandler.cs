@@ -25,7 +25,7 @@ namespace Microshoppy.Catalog.CQRS.Command
 				Name = request.Name
 			};
 
-			_publishEndpoint.Publish<ProductCreated>(new
+			_publishEndpoint.Publish<IProductCreated>(new
 			{
 				productToCreate.ProductId,
 				request.NetPrice,
@@ -34,14 +34,5 @@ namespace Microshoppy.Catalog.CQRS.Command
 			Repo.CreateProduct(productToCreate);
 			return Task.FromResult(Unit.Value);
 		}
-	}
-
-	internal class ProductCreated : IProductCreated
-	{
-		public Guid ProductId { get; set; }
-
-		public double NetPrice { get; set; }
-
-		public double TaxPercentage { get; set; }
 	}
 }
