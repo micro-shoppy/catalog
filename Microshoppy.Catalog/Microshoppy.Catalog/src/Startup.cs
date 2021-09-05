@@ -1,3 +1,5 @@
+using System;
+using MassTransit;
 using MediatR;
 using Microshoppy.Catalog.CQRS.Command;
 using Microshoppy.Catalog.Repositories;
@@ -30,6 +32,17 @@ namespace Microshoppy.Catalog
 			});
 			services.AddMediatR(typeof(CreateCatalogProductCommand));
 			services.AddTransient<ICatalogRepository, InMemoryCatalogRepository>();
+			var rabbitOptions = new RabbitMqOptions();
+			Configuration.GetSection("RabbitMq").Bind(rabbitOptions);
+			services.AddMassTransit(x =>
+			{
+				x.UsingRabbitMq((context, cfg) =>
+				{
+					cfg.Host(new Uri(rabbitOptions.Host));
+					cfg.ConfigureEndpoints(context);
+				});
+			});
+			services.AddMassTransitHostedService();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
